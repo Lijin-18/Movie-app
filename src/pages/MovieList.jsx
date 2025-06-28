@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Card from '../components/Card'
 import useFetch from '../hooks/useFetch'
+import MovieContext from '../context/MovieContext';
+import PageNav from '../components/PageNav';
 
 function MovieList({apiPoint}) {
 
+  const {pageCount , setPageCount , decPage ,  incPage} = useContext(MovieContext)
   
-  const {movies} = useFetch(apiPoint);
+  const {movies} = useFetch(apiPoint , pageCount);
 
- 
+
 
 
   return (
@@ -22,6 +25,9 @@ function MovieList({apiPoint}) {
         )
       }
     </div>
+
+      <PageNav></PageNav>
+
     </div>
   )
 }

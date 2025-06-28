@@ -1,11 +1,24 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react'
+import { NavLink, useNavigate , useSearchParams } from 'react-router-dom'
 
 function Header() {
 
-    const activeStyle = "inline-block transform origin-center  text-red-500 transition duration-300 ease-in-out"
+    const navigate = useNavigate()
+
+    const [searchParm , setSearchParam] = useSearchParams()
+
+    const activeStyle = "inline-block transform origin-center  text-blue-500 transition duration-300 ease-in-out"
 
     const inActiveStyle = "inline-block transform origin-center  duration-300 ease-in-out"
+
+    const searchMovie = (e) =>{
+        e.preventDefault()
+        console.log(e.target.search.value)
+        const input = e.target.search.value;
+        setSearchParam({query:input})
+        navigate(`search/movie?query=${e.target.search.value}`)
+        e.target.search.value=null
+    }
 
   return (
     <header className='max-w-full bg-[#032541]'>
@@ -19,7 +32,9 @@ function Header() {
                 <li><NavLink to="/movie/upcoming" className={({isActive})=> isActive? activeStyle : inActiveStyle}>Upcoming</NavLink></li>
                 <li><NavLink to="/movie/top" className={({isActive})=> isActive? activeStyle : inActiveStyle}>Top</NavLink></li>
             </ul>
-            <input className='bg-white rounded-xl p-1 text-black focus:outline-none hover:ring-2 focus:ring-2 focus:ring-red-500 hover:ring-red-500 transition hidden sm:block'/>
+           <form onSubmit={(e)=>searchMovie(e)}>
+             <input name='search' placeholder='Search....' className='bg-white rounded-md p-1 text-black focus:outline-none hover:ring-2 focus:ring-2 focus:ring-blue-500 hover:ring-blue-500 transition hidden sm:block'/>
+           </form>
         </div>
     </header>
   )

@@ -1,13 +1,13 @@
 import { useState , useEffect } from "react";
 
 
-const useFetch = (apiPoint) =>{
+const useFetch = (apiPoint , pageCount) =>{
 
 
     // https://api.themoviedb.org/3/movie/1087192?language=en-US 
 
   const [movies , setMovies] = useState([]);
-  const url = `https://api.themoviedb.org/3/${apiPoint}?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`;
+  const url = `https://api.themoviedb.org/3/${apiPoint}?include_adult=false&include_video=false&language=en-US&page=${pageCount}&sort_by=popularity.desc`;
   const options = {
   method: 'GET',
   headers: {
@@ -21,12 +21,13 @@ const useFetch = (apiPoint) =>{
     const response = await fetch(url,options);
     const data = await response.json()
     setMovies(data.results)
+    console.log(url)
 
   }
 
     useEffect(() => {
     fetchMovie();
-  }, [apiPoint]);
+  }, [apiPoint , pageCount] );
 
   return {
     movies
